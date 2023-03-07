@@ -1,2 +1,11 @@
-/.idea
-/nodeJS_homework.iml
+# Editor directories and files
+.idea
+
+# Node artifact files
+nodeJS_homework.iml
+node_modules/
+dist/
+
+# Environment variables
+.env
+.env.*
