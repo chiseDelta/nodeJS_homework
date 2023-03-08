@@ -2,7 +2,7 @@
   "name": "nodejs_homework",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
     "start": "rimraf dist && tsc-watch --onSuccess \"npm run watch\"",
     "watch": "nodemon \"src/app.ts\" --watch \"./src\""
@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/chiseDelta/nodeJS_homework#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.0.1"
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
