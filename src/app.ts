@@ -1,61 +1,27 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
 
-import { User } from "./models/User.model";
+import { configs } from "./configs/config";
+import { userRouter } from "./routers/user.router";
+import { IError } from "./types/common.types";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/users", async (req: Request, res: Response) => {
-  const users = await User.find();
+app.use("/users", userRouter);
 
-  res.json(users);
-});
+app.use((err: IError, req: Request, res: Response, next: NextFunction) => {
+  const status = err.status;
 
-app.get("/users/:userId", async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const user = await User.findById(userId);
-
-  res.json(user);
-});
-
-app.post("/users", async (req: Request, res: Response) => {
-  const body = req.body;
-  const user = await User.create(body);
-
-  res.status(201).json({
-    message: "User created!",
-    data: user,
+  return res.status(status).json({
+    message: err.message,
+    status,
   });
 });
 
-app.put("/users", async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const user = req.body;
-
-  const updatedUser = await User.updateOne({ _id: userId }, user);
-
-  res.status(200).json({
-    message: "User updated!",
-    data: updatedUser,
-  });
-});
-
-app.delete("/users", async (req: Request, res: Response) => {
-  const { userId } = req.params;
-
-  await User.deleteOne({ _id: userId });
-
-  res.status(200).json({
-    message: "User deleted!",
-  });
-});
-
-const PORT = 5100;
-
-app.listen(PORT, async () => {
-  await mongoose.connect("mongodb://127.0.0.1:27017/my-server");
-  console.log(`Server has started on PORT ${PORT}`);
+app.listen(configs.PORT, async () => {
+  await mongoose.connect(configs.DB_URL);
+  console.log(`Server has started on PORT ${configs.PORT}`);
 });
