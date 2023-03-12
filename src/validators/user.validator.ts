@@ -1,0 +1,23 @@
+import Joi from "joi";
+
+import { regexConstants } from "../constants/regex.constants";
+import { EGenders } from "../types/user.types";
+
+export class UserValidator {
+  private static username = Joi.string().min(3).max(50).trim();
+  private static email = Joi.string().email().lowercase().trim();
+  private static password = Joi.string().regex(regexConstants.PASSWORD).trim();
+  private static gender = Joi.valid(...Object.values(EGenders));
+
+  public static createUser = Joi.object({
+    name: this.username.required(),
+    email: this.email.required(),
+    password: this.password.required(),
+    gender: this.gender.required(),
+  });
+
+  static updateUser = Joi.object({
+    name: this.username,
+    gender: this.gender,
+  });
+}
