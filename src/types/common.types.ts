@@ -5,3 +5,9 @@ export interface IError extends Error {
 export interface IMessage {
   message: string;
 }
+
+interface IIndex {
+  [index: string]: any;
+}
+
+export type IRequest = IIndex;

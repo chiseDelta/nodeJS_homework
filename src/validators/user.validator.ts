@@ -1,7 +1,7 @@
 import Joi from "joi";
 
-import { regexConstants } from "../constants/regex.constants";
-import { EGenders } from "../types/user.types";
+import { regexConstants } from "../constants";
+import { EGenders } from "../types";
 
 export class UserValidator {
   private static username = Joi.string().min(3).max(50).trim();
@@ -19,5 +19,10 @@ export class UserValidator {
   static updateUser = Joi.object({
     name: this.username,
     gender: this.gender,
+  });
+
+  static loginUser = Joi.object({
+    email: this.email.required(),
+    password: this.password.required(),
   });
 }
