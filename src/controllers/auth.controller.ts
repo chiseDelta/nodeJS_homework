@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 
 import { authService } from "../services";
-import { ITokenPair, IUser } from "../types";
+import { ITokenPair } from "../types";
 
 class AuthController {
   public async register(req: Request, res: Response, next: NextFunction) {
@@ -21,12 +21,9 @@ class AuthController {
   ): Promise<Response<ITokenPair>> {
     try {
       const { email, password } = req.body;
-      const user = req.res.locals;
+      const { user } = req.res.locals;
 
-      const tokenPair = await authService.login(
-        { email, password },
-        user as IUser
-      );
+      const tokenPair = await authService.login({ email, password }, user);
 
       return res.status(200).json(tokenPair);
     } catch (e) {
@@ -45,6 +42,23 @@ class AuthController {
       const tokenPair = await authService.refresh(tokenInfo, jwtPayload);
 
       return res.status(200).json(tokenPair);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  public async changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { tokenInfo } = req.res.locals;
+      const { oldPassword, newPassword } = req.body;
+
+      await authService.changePassword(
+        tokenInfo._user_id,
+        oldPassword,
+        newPassword
+      );
+
+      res.sendStatus(200);
     } catch (e) {
       next(e);
     }

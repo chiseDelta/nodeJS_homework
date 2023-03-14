@@ -25,5 +25,5 @@ app.use((err: ApiError, req: Request, res: Response, next: NextFunction) => {
 app.listen(configs.PORT, async () => {
   await mongoose.connect(configs.DB_URL);
   // eslint-disable-next-line no-console
-  console.log(`Server has started on PORT ${configs.PORT}`);
+  console.log(`Server has started on PORT ${configs.PORT} ('^-^')`);
 });

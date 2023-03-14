@@ -8,4 +8,7 @@ export const configs = {
 
   ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || "JWT_ACCESS_SECRET",
   REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || "JWT_REFRESH_SECRET",
+
+  NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || "No money, no honey",
+  NO_REPLY_PASSWORD: process.env.NO_REPLY_PASSWORD || "No money, no honey",
 };
